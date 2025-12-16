@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Heart, ShoppingBag } from "lucide-react";
+import { Heart, ShoppingBag, Menu } from "lucide-react";
 
 export default function Navbar() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -13,15 +14,17 @@ export default function Navbar() {
   const totalWishlist = wishlistItems.length;
 
   const hoverColor = "#beaf7b"; 
+  const navBgColor = "#0C0C0C"; 
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-black text-white font-sans">
+    <nav className="w-full text-white font-sans" style={{ backgroundColor: navBgColor }}>
       {/* ===== TOP BAR ===== */}
-      <div className="grid grid-cols-3 items-center px-6 py-2 border-b border-white/20">
-        {/* Colonne gauche (vide pour équilibre) */}
+      <div className="grid grid-cols-3 items-center px-4 sm:px-6 py-2 border-b border-white/20">
         <div />
 
-        {/* Logo centré avec h1 dessous */}
+        {/* Logo centré */}
         <div className="flex flex-col items-center">
           <Link to="/">
             <img
@@ -30,9 +33,8 @@ export default function Navbar() {
               className="h-10 w-auto transition-transform duration-300 hover:scale-105"
             />
           </Link>
-          {/* Texte sous le logo */}
           <h1
-            className="mt-1 text-sm font-semibold uppercase"
+            className="mt-1 text-[12px] sm:text-sm font-semibold uppercase text-center"
             style={{ fontFamily: "'Bodoni Moda', serif" }}
           >
             LALLA HOUSE
@@ -40,7 +42,7 @@ export default function Navbar() {
         </div>
 
         {/* Icônes à droite */}
-        <div className="flex justify-end items-center gap-4">
+        <div className="flex justify-end items-center gap-2 sm:gap-4">
           {/* Wishlist */}
           <Link
             to="/wishlist"
@@ -49,9 +51,9 @@ export default function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.color = hoverColor)}
             onMouseLeave={(e) => (e.currentTarget.style.color = "white")}
           >
-            <Heart className="w-5 h-5 stroke-[1.5] transition-colors" />
+            <Heart className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.5] transition-colors" />
             {totalWishlist > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-xs w-4 h-4 flex items-center justify-center rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-600 text-[8px] sm:text-xs w-4 h-4 sm:w-4 sm:h-4 flex items-center justify-center rounded-full">
                 {totalWishlist}
               </span>
             )}
@@ -65,20 +67,54 @@ export default function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.color = hoverColor)}
             onMouseLeave={(e) => (e.currentTarget.style.color = "white")}
           >
-            <ShoppingBag className="w-5 h-5 stroke-[1.5] transition-colors" />
+            <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.5] transition-colors" />
             {totalCartQuantity > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-xs w-4 h-4 flex items-center justify-center rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-600 text-[8px] sm:text-xs w-4 h-4 sm:w-4 sm:h-4 flex items-center justify-center rounded-full">
                 {totalCartQuantity}
               </span>
             )}
           </Link>
+
+          {/* Icône Dropdown mobile */}
+          <button
+            className="sm:hidden relative group transition-colors"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <Menu className="w-5 h-5 stroke-[1.5] transition-colors" />
+          </button>
         </div>
       </div>
 
-      {/* ===== BOTTOM BAR ===== */}
-      <div className="flex justify-center py-1">
+      {/* Dropdown mobile */}
+      {isDropdownOpen && (
+        <div className="sm:hidden flex flex-col items-center bg-[#0C0C0C] py-2">
+          <Link
+            to="/"
+            className="py-1 text-[12px] w-full text-center transition-colors"
+            style={{ color: "white", fontFamily: "'Bodoni Moda', serif" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = hoverColor)}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "white")}
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            to="/catalogue"
+            className="py-1 text-[12px] w-full text-center transition-colors"
+            style={{ color: "white", fontFamily: "'Bodoni Moda', serif" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = hoverColor)}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "white")}
+            onClick={() => setIsDropdownOpen(false)}
+          >
+            Catalogue
+          </Link>
+        </div>
+      )}
+
+      {/* Sur écran moyen et grand : menu classique */}
+      <div className="hidden sm:flex justify-center py-1 px-4 sm:px-6">
         <ul
-          className="flex gap-10 text-xs uppercase tracking-widest"
+          className="flex gap-10 text-xs uppercase tracking-widest items-center text-center"
           style={{ fontFamily: "'Bodoni Moda', serif" }}
         >
           <li>
