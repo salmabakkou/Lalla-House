@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 
+
 // Pages (tu les créeras ensuite)
 import Home from "./pages/Home";
 import Catalogue from "./pages/Catalogue";
