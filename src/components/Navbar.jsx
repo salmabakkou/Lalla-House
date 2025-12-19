@@ -105,7 +105,7 @@ export default function Navbar() {
         )}
 
         {/* DESKTOP MENU */}
-        <div className="hidden sm:flex justify-center py-1">
+        <div className="hidden sm:flex justify-center py-4">
           <ul
             className="flex gap-10 text-xs uppercase tracking-widest"
             style={{ fontFamily: "'Bodoni Moda', serif" }}

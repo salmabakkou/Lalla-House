@@ -1,6 +1,9 @@
-import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategory, setSearch, resetFiltres } from "../store/slices/productSlice";
+import {
+  setCategory,
+  setSearch,
+  resetFiltres,
+} from "../store/slices/productSlice";
 import ProductCard from "../components/ProductCard";
 
 export default function Catalogue() {
@@ -10,9 +13,10 @@ export default function Catalogue() {
     (state) => state.products
   );
 
-  const categories = ["all", ...new Set(products.map((p) => p.category))];
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // catégories uniques
+  const categories = [...new Set(products.map((p) => p.category))];
 
+  // filtrage produits
   const filteredProducts = products.filter((product) => {
     const categoryOk =
       selectedCategory === "all" || product.category === selectedCategory;
@@ -25,57 +29,74 @@ export default function Catalogue() {
   });
 
   return (
-    <div className="min-h-screen p-6 font-serif bg-[#0C0C0C] text-white">
-      {/* Recherche */}
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchQuery}
-        onChange={(e) => dispatch(setSearch(e.target.value))}
-        className="w-full p-2 mb-4 rounded bg-[#1a1a1a] text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#beaf7b]"
-      />
+    <div className="min-h-screen bg-[#0C0C0C] text-white px-6 py-12">
 
-      {/* Dropdown catégories */}
-      <div className="relative inline-block mb-6">
-        <button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="px-4 py-2 bg-[#1a1a1a] text-white rounded border border-white/20 hover:border-[#beaf7b]"
-        >
-          {selectedCategory}
-        </button>
+      {/* SEARCH */}
+      <div className="max-w-3xl mx-auto">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => dispatch(setSearch(e.target.value))}
+          className="w-full px-5 py-4 rounded-md bg-[#151515] text-white
+          placeholder:text-white/40 text-sm tracking-wide
+          focus:outline-none focus:ring-1 focus:ring-[#beaf7b]"
+        />
+      </div>
 
-        {isDropdownOpen && (
-          <ul className="absolute mt-2 w-48 bg-[#1a1a1a] shadow-lg rounded border border-white/20 z-10">
-            {categories.map((cat) => (
-              <li
-                key={cat}
-                onClick={() => {
-                  dispatch(setCategory(cat));
-                  setIsDropdownOpen(false);
-                }}
-                className="px-4 py-2 hover:bg-[#beaf7b] hover:text-black cursor-pointer"
-              >
-                {cat}
-              </li>
-            ))}
-          </ul>
+      {/* CATEGORIES */}
+      <div className="flex flex-wrap justify-center gap-4 mt-10">
+
+        {categories.map((cat) => {
+          const isActive = selectedCategory === cat;
+
+          return (
+            <button
+              key={cat}
+              onClick={() => dispatch(setCategory(cat))}
+              className={`px-7 py-2.5 rounded-full border
+                text-[12px]   tracking-[0.1em]
+                transition-all duration-300
+                ${
+                  isActive
+                    ? "bg-[#beaf7b] text-black border-[#beaf7b]"
+                    : "border-white/20 text-white/70 hover:border-[#beaf7b] hover:text-[#beaf7b]"
+                }`}
+              style={{
+                fontFamily: "Inter, sans-serif",
+                fontWeight: 400,
+              }}
+            >
+              {cat}
+            </button>
+          );
+        })}
+
+        {/* RESET */}
+        {(selectedCategory !== "all" || searchQuery !== "") && (
+          <button
+            onClick={() => dispatch(resetFiltres())}
+            className="ml-4 px-7 py-2.5 rounded-full
+            border border-[#beaf7b]
+            text-[#beaf7b] text-[12px]  tracking-[0.1em]
+            hover:bg-[#beaf7b] hover:text-black transition-all duration-300"
+            style={{
+              fontFamily: "Inter, sans-serif",
+              fontWeight: 500,
+            }}
+          >
+            Reset
+          </button>
         )}
       </div>
 
-      {/* Reset */}
-      <button
-        onClick={() => dispatch(resetFiltres())}
-        className="px-4 py-2 ml-2 bg-[#1a1a1a] text-white rounded border border-white/20 hover:border-[#beaf7b]"
-      >
-        Reset
-      </button>
-
-      {/* Produits */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
+      {/* PRODUCTS GRID */}
+      <div className="max-w-7xl mx-auto mt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+
     </div>
   );
 }

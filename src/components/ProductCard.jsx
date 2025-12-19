@@ -13,16 +13,13 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="bg-[#1a1a1a] rounded-xl border border-white/10 hover:border-[#beaf7b] transition-all duration-300 flex flex-col overflow-hidden">
-      
-      {/* IMAGE - hauteur fixe */}
+    
       <div className="relative h-64 w-full overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
         />
-
-        {/* Wishlist */}
         <button
           onClick={() =>
             isInWishlist
@@ -41,16 +38,12 @@ export default function ProductCard({ product }) {
         </button>
 
       </div>
-
-      {/* CONTENT */}
       <div className="flex flex-col flex-1 p-4 text-center text-white">
         
-        {/* Nom produit - hauteur contrôlée */}
         <h3 className="text-sm uppercase tracking-widest line-clamp-2 min-h-[40px]">
           {product.name}
         </h3>
 
-        {/* Prix - espace fixe */}
         <p
           className="text-[#beaf7b] mt-2 mb-4 min-h-[24px] text-sm tracking-widest"
           style={{ fontFamily: "'Bodoni Moda', serif" }}
@@ -58,8 +51,6 @@ export default function ProductCard({ product }) {
           {product.price} MAD
         </p>
 
-
-        {/* Bouton TOUJOURS en bas */}
         <button
           onClick={() => dispatch(addToCart(product))}
           className="mt-auto w-full flex items-center justify-center gap-2 py-2 text-sm border border-[#beaf7b] rounded-full text-[#beaf7b] hover:bg-[#beaf7b] hover:text-black transition-all"

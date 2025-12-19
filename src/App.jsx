@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-
+import Footer from "./components/Footer"
 
 // Pages (tu les créeras ensuite)
 import Home from "./pages/Home";
@@ -17,6 +17,7 @@ function App() {
         <Route path="/catalogue" element={<Catalogue />} />
         <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

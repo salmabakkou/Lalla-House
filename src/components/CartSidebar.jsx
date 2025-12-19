@@ -108,17 +108,19 @@ export default function CartSidebar({ isOpen, onClose }) {
           ))}
         </div>
 
-        {/* FOOTER */}
-        <div className="p-5 border-t border-white/20">
-          <div className="flex justify-between mb-5 text-xs uppercase tracking-widest">
-            <span>Total</span>
-            <span className="text-[#beaf7b]">{total} MAD</span>
-          </div>
+        {/* FOOTER : uniquement si il y a des articles */}
+        {cartItems.length > 0 && (
+          <div className="p-5 border-t border-white/20">
+            <div className="flex justify-between mb-5 text-xs uppercase tracking-widest">
+              <span>Total</span>
+              <span className="text-[#beaf7b]">{total} MAD</span>
+            </div>
 
-          <button className="w-full py-3 bg-[#beaf7b] text-black uppercase text-xs tracking-widest hover:opacity-90 transition rounded-full">
-            Checkout
-          </button>
-        </div>
+            <button className="w-full py-3 bg-[#beaf7b] text-black uppercase text-xs tracking-widest hover:opacity-90 transition rounded-full">
+              Checkout
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
